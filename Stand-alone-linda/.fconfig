@@ -1,0 +1,6 @@
+Exe              : soil_model
+Compiler command : gfortran
+Compiler includes: /usr/local/netcdf-4.3.2-4.2-gfortran/include/
+Compiler flags   : -O2 -fimplicit-none -Wunused -Wall
+Linker command   : ld
+Linker libraries : /usr/local/netcdf-4.3.2-4.2-gfortran/lib64/
