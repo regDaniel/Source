@@ -232,10 +232,12 @@ REAL    (KIND=ireals   ) ::  &
 
 ! Soil and plant parameters
 
-     zfcap    (ie,je)          , & ! field capacity of soil
-     zadp     (ie,je)          , & ! air dryness point
+     zfcap    (ie,je,ke_soil+1), & ! field capacity of soil
+     zfcap0   (ie,je)          , & ! field capacity at root depth
+     zadp     (ie,je,ke_soil+1), & ! air dryness point
+     zadp0    (ie,je)          , & ! air dryness point at root depth
      zporv0   (ie,je)          , & !pore volume at root depth
-     zporv    (ie,je,ke_soil)  , & ! pore volume (fraction of volume)
+     zporv    (ie,je,ke_soil+1), & ! pore volume (fraction of volume)
      zdw      (ie,je)          , & ! hydrological diff.parameter
      zdw1     (ie,je)          , & ! hydrological diff.parameter
      zkw      (ie,je,ke_soil+1), & ! hydrological cond.parameter
@@ -349,19 +351,19 @@ REAL    (KIND=ireals   ) ::  &
    DO   j = jstarts, jends
       DO i = istarts, iends
          IF(llandmask(i,j)) THEN        ! for land-points only
-            mstyp         = NINT(soiltyp(1,1))        ! soil type
-            m_styp(i,j)   = mstyp                     ! array for soil type
-            zdw   (i,j)   = cdw0(mstyp)
-            zdw1  (i,j)   = cdw1(mstyp)
+            mstyp          = NINT(soiltyp(1,1))        ! soil type
+            m_styp(i,j)    = mstyp                     ! array for soil type
+            zdw   (i,j)    = cdw0(mstyp)
+            zdw1  (i,j)    = cdw1(mstyp)
             zkw   (i,j,ke_soil+1) = ckw0  (mstyp)   ! other levels are set below with 3D variables
             !zkw   (i,j)  = ckw0(mstyp)
-            zkw1  (i,j)   = ckw1(mstyp)
-            zik2  (i,j)   = cik2(mstyp)
-            zporv0(i,j)   = cporv(mstyp)              ! pore volume at root depth
-            zadp (i,j)    = cadp(mstyp)               ! air dryness point
-            zfcap(i,j)    = cfcap(mstyp)              ! field capacity
-            zrock(i,j)    = crock(mstyp)              ! rock or ice indicator
-            rootdp(i,j)   = czrootdp
+            zkw1  (i,j)    = ckw1(mstyp)
+            zik2  (i,j)    = cik2(mstyp)
+            zporv0(i,j)    = cporv(mstyp)              ! pore volume at root depth
+            zadp0 (i,j)     = cadp(mstyp)               ! air dryness point at root depth
+            zfcap0(i,j)     = cfcap(mstyp)              ! field capacity
+            zrock(i,j)     = crock(mstyp)              ! rock or ice indicator
+            rootdp(i,j)    = czrootdp
          END IF
       END DO
    END DO
@@ -384,8 +386,12 @@ REAL    (KIND=ireals   ) ::  &
 ! Exponential porosity profile (Daniel)
                IF (lexpporv) THEN
                  zporv(i,j,kso) = zporv0(i,j)*EXP(-2._ireals*(zmls(kso)-rootdp(i,j)))
+                 zadp(i,j,kso) = zadp0(i,j)*EXP(-1._ireals*(zmls(kso)-rootdp(i,j)))
+                 zfcap(i,j,kso) = zfcap0(i,j)*EXP(-1._ireals*(zmls(kso)-rootdp(i,j)))
                ELSE
                  zporv(i,j,kso) = zporv0(i,j)
+                 zadp(i,j,kso) = zadp0(i,j)
+                 zfcap(i,j,kso) = zfcap0(i,j)
                ENDIF
             ENDIF
          ENDDO
@@ -512,7 +518,7 @@ REAL    (KIND=ireals   ) ::  &
                zlw_fr_ksom05 = 0.5*(zdzhs(kso-1)*zlw_fr_kso(i,j,kso)+ &
                     zdzhs(kso)*zlw_fr_ksom1)/zdzms(kso)
                h_wt_k(i,j,kso) = min(zdzhs(kso),max(0.0,zdzhs(kso)* &
-                    (zlw_fr_kso(i,j,kso)-zfcap(i,j))/zporv(i,j,kso))) ! dz in layer
+                    (zlw_fr_kso(i,j,kso)-zfcap(i,j,kso))/zporv(i,j,kso))) ! dz in layer
                if(kso==zsatlev(i,j)-1) then! last partly saturated level above ground water
                   h_wt = min(zdzhs(kso),max(0.0,zdzhs(kso)*(zlw_fr_kso(i,j,kso)-zlw_fr_ksom1)/(zporv(i,j,kso)-zlw_fr_ksom1))) ! dz in layer
                   z_wt = zzhls(kso) - h_wt ! depth of water table
@@ -538,7 +544,7 @@ REAL    (KIND=ireals   ) ::  &
                zlw_fr_ksop05 = 0.5_ireals*(zdzhs(2)*zlw_fr_kso(i,j,1)+zdzhs(1)*zlw_fr_kso(i,j,2)) &
                                   /zdzms(2)
                zdlw_fr_ksop05(i,j,1) = zdw(i,j)*EXP(zdw1(i,j)*                       &
-                                   (zporv(i,j,1)-zlw_fr_ksop05)/(zporv(i,j,1)-zadp(i,j)) )
+                                   (zporv(i,j,1)-zlw_fr_ksop05)/(zporv(i,j,1)-zadp(i,j,1)) )
 
                zinfmx = MIN(zinfmx, (zporv(i,j,1) - zw_fr(i,j,1))*zdzhs(1)*zrhwddt &
                       - rho_w*zdlw_fr_ksop05(i,j,1)*(zlw_fr_kso(i,j,2) - zlw_fr_kso(i,j,1)  )/zdzms(2))
@@ -574,9 +580,9 @@ REAL    (KIND=ireals   ) ::  &
                   zlw_fr_ksop05 = 0.5_ireals*(zdzhs(2)*zlw_fr_kso(i,j,1)+zdzhs(1)*zlw_fr_ksop1) &
                                   /zdzms(2)
                   zdlw_fr_ksop05(i,j,1) = zdw(i,j)*EXP(zdw1(i,j)*                       &
-                                   (zporv(i,j,1)-zlw_fr_ksop05)/(zporv(i,j,1)-zadp(i,j)) )
+                                   (zporv(i,j,1)-zlw_fr_ksop05)/(zporv(i,j,1)-zadp(i,j,1)) )
                   zklw_fr_ksop05_fg(i,j,1) = zkw(i,j,1)*EXP(zkw1(i,j)*                       &
-                                   (zporv(i,j,1)-zlw_fr_ksop05)/(zporv(i,j,1)-zadp(i,j)) )!&
+                                   (zporv(i,j,1)-zlw_fr_ksop05)/(zporv(i,j,1)-zadp(i,j,1)) )!&
                                    !*max(0.0_ireals,min(1.0_ireals,1.0_ireals-(zlw_fr_ksop05-zfcap(i,j))/(zporv(i,j,ke_soil)-zfcap(i,j))))
 
                   ! explicit part of soil surface water flux:
@@ -613,7 +619,7 @@ REAL    (KIND=ireals   ) ::  &
                         !zklw_fr_ksop05_fg(i,j,kso-1) = zkw(i,j,kso)*EXP( zkw1(i,j)*   &
                         !     (zporv(i,j,kso-zlw_fr_ksom05)/(zporv(i,j,kso)-zadp(i,j)) )
                         zklw_fr_ksop05_fg(i,j,kso) = zkw(i,j,kso)*EXP( zkw1(i,j)*   &
-                             (zporv(i,j,kso)-zlw_fr_ksop05)/(zporv(i,j,kso)-zadp(i,j)) )!&
+                             (zporv(i,j,kso)-zlw_fr_ksop05)/(zporv(i,j,kso)-zadp(i,j,kso)) )!&
                         !zklw_fr_ksop05_fg(i,j,kso) = 0.0_ireals ! No flux at the bottom
                         !q_kso_fc(i,j,kso) = 0.0
                         q_kso(i,j,kso) = s_topo*gamma*rho_w*zkw(i,j,kso)*h_wt ! saturated ground water flow at the bottom
@@ -622,7 +628,7 @@ REAL    (KIND=ireals   ) ::  &
                      !   zklw_fr_ksop05 = zkw(i,j)*EXP( -fsat(i,j)* (zmls(kso)-dc))
                         !zklw_fr_ksop05_fg(i,j,kso-1) = 0.0_ireals
                         zklw_fr_ksop05_fg(i,j,kso) = zkw(i,j,kso)*EXP( zkw1(i,j)*   &
-                             (zporv(i,j,kso)-zlw_fr_ksop05)/(zporv(i,j,kso)-zadp(i,j)) )!&
+                             (zporv(i,j,kso)-zlw_fr_ksop05)/(zporv(i,j,kso)-zadp(i,j,kso)) )!&
                         !zklw_fr_ksop05_fg(i,j,kso)      = 0.0_ireals
                         !q_kso_fc(i,j,kso) = 0.0
                         q_kso(i,j,kso) = s_topo*gamma*rho_w*zkw(i,j,kso)*zdzhs(kso)
@@ -630,11 +636,11 @@ REAL    (KIND=ireals   ) ::  &
                         !zklw_fr_ksop05_fg(i,j,kso-1)= zkw(i,j,kso)*EXP( zkw1(i,j)*   &
                         !     (zporv(i,j,kso)-zlw_fr_ksom05)/(zporv(i,j,kso)-zadp(i,j)) )!&
                         zklw_fr_ksop05_fg(i,j,kso) = zkw(i,j,kso)*EXP( zkw1(i,j)*   &
-                             (zporv(i,j,kso)-zlw_fr_ksop05)/(zporv(i,j,kso)-zadp(i,j)) )!&
+                             (zporv(i,j,kso)-zlw_fr_ksop05)/(zporv(i,j,kso)-zadp(i,j,kso)) )!&
                         zdlw_fr_ksop05(i,j,kso) = zdw(i,j)*EXP( zdw1(i,j)*   &
-                                     (zporv(i,j,kso)-zlw_fr_ksop05)/(zporv(i,j,kso)-zadp(i,j)) )
+                                     (zporv(i,j,kso)-zlw_fr_ksop05)/(zporv(i,j,kso)-zadp(i,j,kso)) )
                         ! runoff from this layer if field capacity is exceeded
-                        hlp = zlw_fr_kso(i,j,kso) - zfcap(i,j)
+                        hlp = zlw_fr_kso(i,j,kso) - zfcap(i,j,kso)
                         q_kso(i,j,kso) = 0.0
                         !q_kso_fc_max = hlp*rho_w/(zdt*zdzhs(kso))
                         !q_kso_fc(i,j,kso) = zsf_heav(hlp)*min( q_kso_fc_max,s_topo*gamma*rho_w*zkw(i,j,kso)*h_wt_k(i,j,kso))
@@ -1051,7 +1057,7 @@ END DO                ! soil layers
 
             zwgn            = zw_fr(i,j,kso) + zdtdrhw*zdwg/zdzhs(kso)
             zro2            = zrhwddt*zdzhs(kso)*MAX(0.0_ireals, zwgn - zporv(i,j,kso))
-            zkorr           = zrhwddt*zdzhs(kso)*MAX(0.0_ireals, zadp(i,j) - zwgn )
+            zkorr           = zrhwddt*zdzhs(kso)*MAX(0.0_ireals, zadp(i,j,kso) - zwgn )
             ! first contribution to ground runoff: above field capacity
             zdwgdt(i,j,kso) = zdwg !+ zkorr - zro2
             zro             = 0.0!- zro2
