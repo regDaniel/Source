@@ -25,7 +25,7 @@ INTEGER (KIND=iintegers), PARAMETER ::  &
     ke_soil = 9_iintegers,      & ! number of layers in multi-layer soil model
     ie_tot = 1_iintegers,       & ! number of grid points in zonal direction
     je_tot = 1_iintegers,       & ! number of grid points in meridional direction
-    
+
     istartpar = 1_iintegers,    & ! start index for computations in the parallel program
     iendpar = 1_iintegers,      & ! end index for computations in the parallel program
     jstartpar = 1_iintegers,    & ! start index for computations in the parallel program
@@ -44,21 +44,24 @@ INTEGER (KIND=iintegers), PARAMETER ::  &
 REAL  (KIND=ireals), PARAMETER ::  &
 ! constants for parametrizations
 ! ---------------------------------
-    rho_w = 1000.0_ireals      ,    &   ! density of liquid water 
-    plcov(1,1) = 0.0_ireals             ! fraction of plant cover                         -- 
+    rho_w = 1000.0_ireals      ,    &   ! density of liquid water
+    plcov(1,1) = 0.0_ireals             ! fraction of plant cover                         --
 INTEGER (KIND=iintegers), PARAMETER ::  &
      itype_hydbound = 1 ! lower boundary
 !------------------------------------------------------------------------------
 ! external parameter fields                                        (unit)
 ! ----------------------------
 REAL (KIND=ireals), PARAMETER ::  &
-    soiltyp(1,1) = 5_ireals             ! type of the soil (keys 0-9)                     
+    soiltyp(1,1) = 5_ireals             ! type of the soil (keys 0-9)
 LOGICAL, PARAMETER ::           &
-    llandmask(1,1) = .TRUE.             ! landpoint mask    
+    llandmask(1,1) = .TRUE.             ! landpoint mask
 
 LOGICAL, PARAMETER ::           &
-    ldecharme = .TRUE.             ! landpoint mask    
- 
+    ldecharme = .TRUE.           ! decharme formulation
+
+LOGICAL, PARAMETER ::           &
+    lexpporv  = .TRUE.           ! exponential pore volume profile
+
 REAL (KIND=ireals) ::  &
     rootdp(1,1)             ! root depth
 
@@ -76,7 +79,7 @@ REAL  (KIND=ireals) ::  &                         !    --
 
 ! fields for model output and diagnostics                          (unit )
 ! ---------------------------------------------------------------
-    
+
 REAL  (KIND=ireals) ::  &
     ignore            ! dummy variable for input reading
 
@@ -89,7 +92,7 @@ CONTAINS
 
 !==============================================================================
 !==============================================================================
-!+ Subroutine for initialization 
+!+ Subroutine for initialization
 !------------------------------------------------------------------------------
 
 SUBROUTINE init_fields
@@ -104,7 +107,7 @@ gamma  = 0.25_ireals
 OPEN(UNIT=13, FILE="w_so_out", ACTION="read", STATUS="old")
 read(13,'(F12.0)',advance='no') ignore ! ignore first entry as it contains time
 DO ind=1,ke_soil-1,1 ! loop over all layers except last two
-       read(13,'(F12.8)', advance='no')  czmls(ind) ! read in all depths except the last 
+       read(13,'(F12.8)', advance='no')  czmls(ind) ! read in all depths except the last
 END DO
        read(13,'(F11.8)',advance='no') czmls(ke_soil) ! second last depth
        read(13,'(F13.8)', advance='no') czmls(ke_soil+1) ! last depth

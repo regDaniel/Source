@@ -1,5 +1,5 @@
 GFORTRAN module version '10' created from data_namelist.f90
-MD5:d31bd70ba3cb19eaea56e78afbe6c8a7 -- If you edit this, you'll get what you deserve.
+MD5:a9dc18027a2b8689195daab9e07ac90b -- If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () () () () () ()
 () () () ())
@@ -96,56 +96,59 @@ UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 0 INTEGER ()) 0 0
 28 'ldecharme' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
 UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (LOGICAL 4 0 0 0 LOGICAL ()) 0 0
 () (CONSTANT (LOGICAL 4 0 0 0 LOGICAL ()) 0 1) () 0 () () () 0 0)
-29 'llandmask' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
+29 'lexpporv' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (LOGICAL 4 0 0 0 LOGICAL ()) 0 0
+() (CONSTANT (LOGICAL 4 0 0 0 LOGICAL ()) 0 1) () 0 () () () 0 0)
+30 'llandmask' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
 UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (LOGICAL 4 0 0 0
 LOGICAL ()) 0 0 () (ARRAY (LOGICAL 4 0 0 0 LOGICAL ()) 2 (((CONSTANT (
 LOGICAL 4 0 0 0 LOGICAL ()) 0 1) ())) ('1' '1')) (2 0 EXPLICIT (
 CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 0
 INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1') (
 CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1')) 0 () () () 0 0)
-30 'noutput' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
+31 'noutput' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
 UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 0 INTEGER ()) 0 0
 () (CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '280') () 0 () () () 0 0)
-31 'nsteps' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC
+32 'nsteps' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 0 INTEGER ()) 0 0 () (
 CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '2419200') () 0 () () () 0 0)
-32 'outtime' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
+33 'outtime' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
 UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (REAL 8 0 0 0 REAL ()) 0 0 () (
 CONSTANT (REAL 8 0 0 0 REAL ()) 0 '0.2a300000000000@5') () 0 () () () 0
 0)
-33 'plcov' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC
+34 'plcov' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 0 REAL ()) 0 0 () (
 ARRAY (REAL 8 0 0 0 REAL ()) 2 (((CONSTANT (REAL 8 0 0 0 REAL ()) 0
 '0.00000000000000@0') ())) ('1' '1')) (2 0 EXPLICIT (CONSTANT (INTEGER 4
 0 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1') (
 CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 0
 INTEGER ()) 0 '1')) 0 () () () 0 0)
-34 'prec' 'data_namelist' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
+35 'prec' 'data_namelist' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 0 REAL ()) 0 0 () (1 0
 EXPLICIT (CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1') (CONSTANT (
 INTEGER 4 0 0 0 INTEGER ()) 0 '281')) 0 () () () 0 0)
-35 'rho_w' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC
+36 'rho_w' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN IMPLICIT-SAVE 0 0) (REAL 8 0 0 0 REAL ()) 0 0 () (CONSTANT (
 REAL 8 0 0 0 REAL ()) 0 '0.3e800000000000@3') () 0 () () () 0 0)
-36 'rootdp' 'data_namelist' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
+37 'rootdp' 'data_namelist' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 0 REAL ()) 0 0 () (2 0
 EXPLICIT (CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1') (CONSTANT (
 INTEGER 4 0 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 0 INTEGER ())
 0 '1') (CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1')) 0 () () () 0 0)
-37 's_topo' 'data_namelist' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
+38 's_topo' 'data_namelist' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN UNKNOWN 0 0) (REAL 8 0 0 0 REAL ()) 0 0 () () 0 () () () 0 0)
-38 'soiltyp' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
+39 'soiltyp' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
 UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 0 REAL ())
 0 0 () (ARRAY (REAL 8 0 0 0 REAL ()) 2 (((CONSTANT (REAL 8 0 0 0 REAL ())
 0 '0.50000000000000@1') ())) ('1' '1')) (2 0 EXPLICIT (CONSTANT (
 INTEGER 4 0 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 0 INTEGER ())
 0 '1') (CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER
 4 0 0 0 INTEGER ()) 0 '1')) 0 () () () 0 0)
-39 'starttime' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
+40 'starttime' 'data_namelist' '' 1 ((PARAMETER UNKNOWN-INTENT
 UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (REAL 8 0 0 0 REAL ()) 0 0 () (
 CONSTANT (REAL 8 0 0 0 REAL ()) 0 '0.00000000000000@0') () 0 () () () 0
 0)
-40 'w_so_init' 'data_namelist' '' 1 ((VARIABLE UNKNOWN-INTENT
+41 'w_so_init' 'data_namelist' '' 1 ((VARIABLE UNKNOWN-INTENT
 UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 0 REAL ())
 0 0 () (3 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1') (
 CONSTANT (INTEGER 4 0 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 0
@@ -159,7 +162,7 @@ INTEGER ()) 0 '10')) 0 () () () 0 0)
 0 10 'gamma' 0 11 'ie' 0 12 'ie_tot' 0 13 'iendpar' 0 14 'ignore' 0 15
 'iintegers' 0 16 'ind' 0 17 'init_fields' 0 18 'int' 0 19 'ireals' 0 20
 'istartpar' 0 21 'itype_hydbound' 0 22 'je' 0 23 'je_tot' 0 24 'jendpar'
-0 25 'jstartpar' 0 26 'ke_soil' 0 27 'ldecharme' 0 28 'llandmask' 0 29
-'noutput' 0 30 'nsteps' 0 31 'outtime' 0 32 'plcov' 0 33 'prec' 0 34
-'rho_w' 0 35 'rootdp' 0 36 's_topo' 0 37 'soiltyp' 0 38 'starttime' 0 39
-'w_so_init' 0 40)
+0 25 'jstartpar' 0 26 'ke_soil' 0 27 'ldecharme' 0 28 'lexpporv' 0 29
+'llandmask' 0 30 'noutput' 0 31 'nsteps' 0 32 'outtime' 0 33 'plcov' 0
+34 'prec' 0 35 'rho_w' 0 36 'rootdp' 0 37 's_topo' 0 38 'soiltyp' 0 39
+'starttime' 0 40 'w_so_init' 0 41)
