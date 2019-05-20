@@ -64,7 +64,10 @@ USE data_namelist, ONLY :   &
      evap           ,     & ! evaporation rate 
      ldecharme      ,     & ! Decharme formulation
      s_topo         ,     &
-     gamma          ,     &
+! tuning parameters
+!-----------------------------------------------------------------------------
+     gamma          ,     & !Scaling parameter for linear runoff-orography scaling
+     kexpdec        ,     & !Decharme factor in the exponential function
     
      init_fields ! init subfunction
 
@@ -373,7 +376,7 @@ REAL    (KIND=ireals   ) ::  &
                IF (ldecharme) then
 !<JH
     !fc=2 1/m Exponential Ksat-profile decay parameter,see Decharme et al. (2006)
-                  zkw   (i,j,kso) = ckw0 (mstyp)*EXP(-2._ireals*(zmls(kso)-rootdp(i,j)))
+                  zkw   (i,j,kso) = ckw0 (mstyp)*EXP(-kexpdec*(zmls(kso)-rootdp(i,j)))
 !>JH
                else
                   zkw   (i,j,kso) = ckw0 (mstyp)

@@ -62,7 +62,10 @@ LOGICAL, PARAMETER ::           &
 REAL (KIND=ireals) ::  &
     rootdp(1,1)             ! root depth
 
-REAL (KIND=ireals   )     s_topo, gamma
+REAL (KIND=ireals   ) ::  &
+    s_topo, & !gradient of orography
+    gamma, & !tuning parameter to scale runoff to orography
+    kexpdec ! tuning parameter for soil hydraulic conductivity
 
 REAL  (KIND=ireals) ::  &                         !    --
 ! fields for surface values and soil model variables               (unit )
@@ -97,8 +100,9 @@ SUBROUTINE init_fields
 ! INIT
 !=============================================================================
 
-s_topo = 0.05_ireals
-gamma  = 0.25_ireals
+s_topo = 0.2_ireals
+gamma  = 4.0_ireals
+kexpdec = 4.0_ireals
 
 
 OPEN(UNIT=13, FILE="w_so_out", ACTION="read", STATUS="old")
