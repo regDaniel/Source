@@ -100,9 +100,9 @@ SUBROUTINE init_fields
 ! INIT
 !=============================================================================
 
-s_topo = 0.2_ireals
-gamma  = 4.0_ireals
-kexpdec = 4.0_ireals
+s_topo = 0.2_ireal !slope gradient
+gamma  = 4.0_ireals !lg**-1 in the paper
+kexpdec = 4.0_ireals !decharme exponent
 
 
 OPEN(UNIT=13, FILE="w_so_out", ACTION="read", STATUS="old")
